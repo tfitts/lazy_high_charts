@@ -8,7 +8,9 @@ module LazyHighCharts
   module OptionsKeyFilter
     FILTER_MAP = {
       :pointInterval => [:milliseconds],
-      :pointStart => [:date_to_js_code]
+      :pointStart => [:date_to_js_code],
+      :from => [:date_to_js_code],
+      :to => [:date_to_js_code]
     }
 
     class << self
@@ -17,6 +19,8 @@ module LazyHighCharts
           options.each do |key, value|
             if value.is_a?(::Hash)
               hash[key] = filter(value)
+            elsif value.is_a?(::Array)
+              hash[key] = value.collect{|x| x.is_a?(::Hash) ? filter(x) : x}
             else
               hash[key] = value
               methods = Array(FILTER_MAP[key])
