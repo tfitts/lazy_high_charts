@@ -39,6 +39,7 @@ module LazyHighCharts
       end
 
       def date_to_js_code date
+        return date if date.is_a?(Integer)
         "Date.UTC(#{date.year}, #{date.month - 1}, #{date.day}, #{date.hour}, #{date.min}, #{date.sec})".js_code
       end
     end
